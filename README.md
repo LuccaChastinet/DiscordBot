@@ -17,9 +17,13 @@ We are creating an Discord bot to help in our D&amp;D Games
 
     https://www.freecodecamp.org/portuguese/news/tutorial-de-criacao-de-bot-para-o-discord-em-python/
 
-3 - Bot Token(Do not Share):
+3 - Bot Configs(Do not Share):
 
+    Token:
     MTExOTYzMTE5OTg0MTgyMDc2NQ.Gk48GO.XRt4pDvHVOsuQDBi-mm8jJLmRNW1yL2OYSMN-E
+
+    Link for adding to Server:
+    https://discord.com/api/oauth2/authorize?client_id=1119631199841820765&permissions=534727097408&scope=bot
 
 4 - Links:
 
