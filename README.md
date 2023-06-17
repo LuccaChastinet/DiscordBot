@@ -16,6 +16,7 @@ We are creating an Discord bot to help in our D&amp;D Games
 2 - Guides:
 
     https://www.freecodecamp.org/portuguese/news/tutorial-de-criacao-de-bot-para-o-discord-em-python/
+    https://www.youtube.com/watch?v=hoDLj0IzZMU
 
 3 - Bot Configs(Do not Share):
 
