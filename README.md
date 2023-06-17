@@ -23,7 +23,7 @@ We are creating an Discord bot to help in our D&amp;D Games
     MTExOTYzMTE5OTg0MTgyMDc2NQ.Gk48GO.XRt4pDvHVOsuQDBi-mm8jJLmRNW1yL2OYSMN-E
 
     Link for adding to Server:
-    https://discord.com/api/oauth2/authorize?client_id=1119631199841820765&permissions=534727097408&scope=bot
+    https://discord.com/api/oauth2/authorize?client_id=1119631199841820765&permissions=1634235579456&scope=bot
 
 4 - Links:
 
