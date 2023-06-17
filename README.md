@@ -5,7 +5,7 @@ Pre-Requisites
 
 Softwares:
 
-python - https://www.python.org/
+python - https://www.python.org/ ;
 pip - python get-pip.py
 
 Libraries:
