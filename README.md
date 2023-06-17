@@ -11,7 +11,7 @@ We are creating an Discord bot to help in our D&amp;D Games
 
   1.2 - Libraries:
 
-  discord - pip install -U discord.py
+    discord - pip install -U discord.py
 
 2 - Guides:
 
