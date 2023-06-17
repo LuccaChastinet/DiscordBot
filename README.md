@@ -20,3 +20,7 @@ We are creating an Discord bot to help in our D&amp;D Games
 3 - Bot Token(Do not Share):
 
     MTExOTYzMTE5OTg0MTgyMDc2NQ.Gk48GO.XRt4pDvHVOsuQDBi-mm8jJLmRNW1yL2OYSMN-E
+
+4 - Links:
+
+    https://discord.com/developers/applications
