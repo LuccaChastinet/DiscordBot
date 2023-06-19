@@ -14,19 +14,23 @@ async def send_message(message, user_message): # Here we have an function to sen
 
 
 def run_discord_bot():
-    TOKEN = "MTExOTYzMTE5OTg0MTgyMDc2NQ.Gk48GO.XRt4pDvHVOsuQDBi-mm8jJLmRNW1yL2OYSMN-E" # Our Discord Token
-    client = discord.Client(intents=discord.Intents.default()) #Preparing to run the bot. Mayber [ERROR1] is here.
+    
+    TOKEN = "" # Our Discord Token. REMEMBER TO TAKE THIS OUT BEFORE UPLOADING CODE
+    intents = discord.Intents.default()
+    intents.members = True
+    intents.message_content = True
+    client = discord.Client(intents=intents) # Preparing to run the bot. 
 
     @client.event
     async def on_ready(): #To see if it iniciated properly
         print(f'{client.user} is now running!')
 
     @client.event
-    async def on_message(message): #Whenever a message is sent, he is going to see the user who sent it, the message and the channel
+    async def on_message(message): # Whenever a message is sent, he is going to see the user who sent it, the message and the channel
         if message.author == client.user:
             return
         username = str(message.author) # Get user's username
-        user_message = str(message.content) # Get user's message [ERROR1 = THE BOT IS NOT GETTING THE MESSAGE, HE CAN'T GET TO ANY MESSAGES]
+        user_message = str(message.content) # Get user's message 
         channel = str(message.channel) # Get user's channel
 
         print(f"{username} said: '{user_message}' in ({channel})") # Just for debug purposes
