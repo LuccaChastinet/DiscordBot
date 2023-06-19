@@ -2,16 +2,17 @@
 
 import discord
 import responses
+import youtube_dl
 
 
 
 async def send_message(message, user_message): # Here we have an function to send an message
-    try:
-        
-            response = responses.handle_response(user_message) # Here he is analysing the sentence to have an appropriate response (see responses.py)
-            await message.author.send(response) if False else await message.channel.send(response) # Here he sends the message to the channel that the person wrote the message
+    try:  
+        response = responses.handle_response(user_message) # Here he is analysing the sentence to have an appropriate response (see responses.py)
+        await message.author.send(response) if False else await message.channel.send(response) # Here he sends the message to the channel that the person wrote the message
     except Exception as e:
         print(e)
+
 
 
 def run_discord_bot():
@@ -30,6 +31,7 @@ def run_discord_bot():
     async def on_message(message): # Whenever a message is sent, he is going to see the user who sent it, the message and the channel
         if message.author == client.user:
             return
+
         if message.content.startswith("$"):
             username = str(message.author) # Get user's username
             user_message = str(message.content) # Get user's message 
