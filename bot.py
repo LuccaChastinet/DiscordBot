@@ -7,8 +7,9 @@ import responses
 
 async def send_message(message, user_message): # Here we have an function to send an message
     try:
-        response = responses.handle_response(user_message) # Here he is analysing the sentence to have an appropriate response (see responses.py)
-        await message.author.send(response) if False else await message.channel.send(response) # Here he sends the message to the channel that the person wrote the message
+        
+            response = responses.handle_response(user_message) # Here he is analysing the sentence to have an appropriate response (see responses.py)
+            await message.author.send(response) if False else await message.channel.send(response) # Here he sends the message to the channel that the person wrote the message
     except Exception as e:
         print(e)
 
@@ -29,12 +30,15 @@ def run_discord_bot():
     async def on_message(message): # Whenever a message is sent, he is going to see the user who sent it, the message and the channel
         if message.author == client.user:
             return
-        username = str(message.author) # Get user's username
-        user_message = str(message.content) # Get user's message 
-        channel = str(message.channel) # Get user's channel
+        if message.content.startswith("$"):
+            username = str(message.author) # Get user's username
+            user_message = str(message.content) # Get user's message 
+            channel = str(message.channel) # Get user's channel
 
-        print(f"{username} said: '{user_message}' in ({channel})") # Just for debug purposes
+            print(f"{username} said: '{user_message}' in ({channel})") # Just for debug purposes
 
-        await send_message(message, user_message) # Send message in discord chat
-
+            await send_message(message, user_message) # Send message in discord chat
+        else:
+             return
+        
     client.run(TOKEN) # Run the bot

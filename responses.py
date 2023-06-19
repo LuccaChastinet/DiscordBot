@@ -2,7 +2,7 @@
 
 def handle_response(message) -> str:
     p_message = message.lower() #So he understands the messages if they are $TEST or $test
-
+    
     if p_message == "$test":
         return "Testando :)"
     
