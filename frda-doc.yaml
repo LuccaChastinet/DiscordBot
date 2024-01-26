@@ -1,0 +1,760 @@
+openapi: 3.0.3
+info:
+  title: FRDA - Feature Robustness Data Analytics
+  description: A Website that uses Connected Vehicle Data, offering effective and time-saving insights.
+  version: 1.0.0
+
+servers:
+  - url: https://cr-frdapp-backend-fq753thf3a-uc.a.run.app/frda
+    description: Dev Server
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: "OAuth2 authentication with client credentials flow"
+      flows:
+        clientCredentials:
+          tokenUrl: https://login.microsoftonline.com/c990bb7a-51f4-439b-bd36-9c07fb1041c0/oauth2/token
+          scopes: 
+            read: Read access to user name and photo
+  schemas:
+    CleanedFMEAWithoutCVDATA:
+      type: object
+      additionalProperties: false
+      properties:
+        id: 
+          type: integer
+          minimum: 0
+          maximum: 1024
+          format: int32
+        Failure Mode: 
+          type: string
+          pattern: ^\[\d+\.\d+\][\s\S]*$
+          maxLength: 1024
+        Description Failure:
+          type: string
+          pattern: ^\[\d+\.\d+\.\d+\][\s\S]*$
+          maxLength: 1024
+        Sev: 
+          type: integer
+          minimum: 0
+          maximum: 10
+          format: int32
+        Occ:
+          type: integer
+          minimum: 0
+          maximum: 10
+          format: int32
+        Det: 
+          type: integer
+          minimum: 0
+          maximum: 10
+          format: int32
+        RPN:
+          type: integer
+          minimum: 0
+          maximum: 1000
+          format: int32
+        DTC:
+          type: string
+          pattern: '^[A-Z0-9]{7}$'
+          maxLength: 7
+        ECU:
+          type: string
+          pattern: '^[A-Z]{3,6}$'
+          maxLength: 6
+      required:
+        - id
+        - Failure Mode
+        - Description Failure
+        - Sev
+        - Occ
+        - Det
+        - RPN 
+        - DTC 
+        - ECU
+      example:
+        id: 1
+        Failure Mode: '[1.1] Example failure mode...'
+        Description Failure: '[1.1.1] Description of failure mode...'
+        Sev: 5
+        Occ: 3
+        Det: 2
+        RPN: 30
+        DTC: 'AB12345'
+        ECU: 'ECM'
+
+    CleanedFMEAWithCVDATA: 
+      type: object
+      additionalProperties: false
+      properties:
+        Affected Cars:
+          type: integer
+          minimum: 0
+          maximum: 100000000
+          format: int32
+        DTC:
+          type: string
+          pattern: '^[A-Z0-9]{7}$'
+          maxLength: 7
+        Description Failure:
+          type: string
+          pattern: ^\[\d+\.\d+\.\d+\][\s\S]*$
+          maxLength: 1024
+        Det:
+          type: integer
+          minimum: 0
+          maximum: 10
+          format: int32
+        ECU:
+          type: string
+          pattern: '^[A-Z]{3,4}$'
+          maxLength: 4
+        Failure Mode:
+          type: string
+          pattern: ^\[\d+\.\d+\][\s\S]*$
+          maxLength: 1024
+        New Occ:
+          type: integer
+          minimum: 0
+          maximum: 10
+          format: int32
+        New RPN:
+          type: integer
+          minimum: 0
+          maximum: 1000
+          format: int32
+        Occ:
+          type: integer
+          minimum: 0
+          maximum: 10
+          format: int32
+        Occurrence(%):
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+        RPN:
+          type: integer
+          minimum: 0
+          maximum: 1000
+          format: int32
+        Sev:
+          type: integer
+          minimum: 0
+          maximum: 10
+          format: int32
+        Total Cars:
+          type: integer
+          minimum: 0
+          maximum: 100000000
+          format: int32
+        id: 
+          type: integer
+          minimum: 0
+          maximum: 1024
+          format: int32
+      required:
+        - Affected Cars
+        - DTC
+        - Description Failure
+        - Det
+        - ECU
+        - Failure Mode
+        - New Occ
+        - New RPN
+        - Occ
+        - Occurrence(%)
+        - RPN
+        - Sev
+        - Total Cars
+        - id
+      example:
+        id: 1
+        Failure Mode: '[1.1] Example failure mode...'
+        Description Failure: '[1.1.1] Description of failure mode...'
+        Sev: 5
+        Occ: 3
+        Det: 2
+        RPN: 30
+        DTC: 'AB12345'
+        ECU: 'ECM'
+        New Occ: 5
+        New RPN: 50
+        Occurrence(%): 0.3
+        Total Cars: 1000
+        Affected Cars: 100  
+
+    FieldRPNvsRPNGraph:
+      type: object
+      additionalProperties: false
+      properties:
+        DTC:
+          type: string
+          pattern: '^[A-Z0-9]{7}$'
+        Failure:
+          type: string
+          pattern: '^\d\.\d\.\d$'
+          maxLength: 5
+        New_RPN:
+          type: integer
+          minimum: 0
+          maximum: 1000
+        RPN:
+          type: integer
+          minimum: 0
+          maximum: 1000
+        id:
+          type: integer
+          minimum: 0
+          maximum: 1024
+      required:
+        - DTC
+        - Failure
+        - New_RPN
+        - RPN
+        - id
+      example:
+        id: 1
+        Failure: '1.3.2'
+        New_RPN: 50
+        RPN: 30
+        DTC: 'AB12345'
+
+    FailurevsOccurrenceGraph:
+      type: object
+      additionalProperties: false
+      properties:
+        Failure:
+          type: string
+          pattern: '^\d\.\d\.\d$'
+          maxLength: 5
+        New_RPN:
+          type: integer
+          minimum: 0
+          maximum: 1000
+        Occurrence:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        RPN:
+          type: integer
+          minimum: 0
+          maximum: 1000
+        id:
+          type: integer
+          minimum: 0
+          maximum: 1024
+      required:
+        - Failure
+        - New_RPN
+        - Occurrence
+        - RPN
+        - id
+      example:
+        id: 1
+        Failure: '1.3.2'
+        New_RPN: 50
+        RPN: 30
+        Occurrence: 0.3
+   
+    Graphs:
+      type: array
+      items:
+        oneOf:
+          - type: array
+            items:
+              $ref: '#/components/schemas/FieldRPNvsRPNGraph'
+            minItems: 1
+            maxItems: 1
+          - type: array
+            items:
+              $ref: '#/components/schemas/FailurevsOccurrenceGraph'
+            minItems: 1
+            maxItems: 1
+      minItems: 2
+      maxItems: 2
+      
+security:
+  - oauth2:
+    - read
+
+paths:
+  /dfmea:
+    post:
+      summary: Returns a clean FMEA
+      description: Gets the DFMEA from the front-end and cleans the information that we will need in other functions.
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema: 
+              type: string
+              pattern: '^[A-Za-z0-9_-]+$'
+              maxLength: 1024
+              format: binary
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CleanedFMEAWithoutCVDATA'
+                maxItems: 1024
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: Bad Request
+                    pattern: '^[\\s\\S]*$'
+
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request was unauthorized
+                    pattern: '^[\\s\\S]*$'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request was forbidden
+                    pattern: '^[\\s\\S]*$'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The requested resource was not found
+                    pattern: '^[\\s\\S]*$'
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: Requested response format is not acceptable
+                    pattern: '^[\\s\\S]*$'
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request payload is in an unsupported format
+                    pattern: '^[\\s\\S]*$'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The requested response is unvalidated
+                    pattern: '^[\\s\\S]*$'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: A message explaining the rate limit or quota that has been exceeded
+                    pattern: '^[\\s\\S]*$'
+                  retry_after:
+                    type: integer
+                    description: The number of seconds until the client can make another request
+
+        default:
+          description: An unexpected error occurred
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: A message explaining the unexpected error
+                    pattern: '^[\\s\\S]*$'
+  /cvdata:
+    post:
+      summary: Compares the FMEA documentation with CV Data
+      description: Gets the cleaned DFMEA and compares it using filters and a query with Connected Vehicle Data
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  maxLength: 1024
+                  description: The binary uploaded FMEA
+                program:
+                  type: string
+                  maxLength: 32
+                  pattern: ^[A-Za-z0-9 _-]+$
+                  example: 'F-150'
+                modelYear:
+                  type: string
+                  maxLength: 16
+                  pattern: ^[0-9,]+$
+                  example: '2021,2022'
+                startDate:
+                  type: string
+                  format: date-time
+                  maxLength: 38
+                  pattern: >-
+                      ^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])T(?:[01][0-9]|2[0-3]):[0-5][0-9]:(?:[0-5][0-9]|60)(?:\.[0-9]{1,15})?(?:Z|[+\-](?:[01][0-9]|2[0-3]):[0-5][0-9])$
+                  example: '2023-01-01T00:00:00.000Z'
+                  minLength: 20
+                  x-42c-format: o:date-time
+                endDate:
+                  type: string
+                  format: date-time
+                  maxLength: 38
+                  pattern: >-
+                      ^[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])T(?:[01][0-9]|2[0-3]):[0-5][0-9]:(?:[0-5][0-9]|60)(?:\.[0-9]{1,15})?(?:Z|[+\-](?:[01][0-9]|2[0-3]):[0-5][0-9])$
+                  example: '2023-02-01T23:59:59.999Z'
+                  minLength: 20
+                  x-42c-format: o:date-time
+                formattedObj:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CleanedFMEAWithoutCVDATA'
+                  maxItems: 1024
+            encoding:
+              file:
+                contentType: 'application/octet-stream'
+
+      responses:
+        '200':
+          description: Successfully processed data and returned analysis results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CleanedFMEAWithCVDATA'
+                maxItems: 1024
+                  
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: Bad Request
+                    pattern: '^[\\s\\S]*$'
+
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request was unauthorized
+                    pattern: '^[\\s\\S]*$'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request was forbidden
+                    pattern: '^[\\s\\S]*$'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The requested resource was not found
+                    pattern: '^[\\s\\S]*$'
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: Requested response format is not acceptable
+                    pattern: '^[\\s\\S]*$'
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request payload is in an unsupported format
+                    pattern: '^[\\s\\S]*$'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The requested response is unvalidated
+                    pattern: '^[\\s\\S]*$'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: A message explaining the rate limit or quota that has been exceeded
+                    pattern: '^[\\s\\S]*$'
+                  retry_after:
+                    type: integer
+                    description: The number of seconds until the client can make another request
+
+        default:
+          description: An unexpected error occurred
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: A message explaining the unexpected error
+                    pattern: '^[\\s\\S]*$'
+  /tables:
+    post:
+      summary: Returns graph information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items: 
+                $ref: '#/components/schemas/CleanedFMEAWithCVDATA'
+              maxItems: 1024
+
+      responses:
+        '200':
+          description: Successfully created JSON for the graphs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Graphs'
+                maxItems: 1024
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: Bad Request
+                    pattern: '^[\\s\\S]*$'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request was unauthorized
+                    pattern: '^[\\s\\S]*$'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request was forbidden
+                    pattern: '^[\\s\\S]*$'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The requested resource was not found
+                    pattern: '^[\\s\\S]*$'
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: Requested response format is not acceptable
+                    pattern: '^[\\s\\S]*$'
+        '415':
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The request payload is in an unsupported format
+                    pattern: '^[\\s\\S]*$'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: The requested response is unvalidated
+                    pattern: '^[\\s\\S]*$'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: A message explaining the rate limit or quota that has been exceeded
+                    pattern: '^[\\s\\S]*$'
+                  retry_after:
+                    type: integer
+                    description: The number of seconds until the client can make another request
+
+        default:
+          description: An unexpected error occurred
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    maxLength: 1024
+                    description: A message explaining the unexpected error
+                    pattern: '^[\\s\\S]*$'
